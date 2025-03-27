@@ -261,17 +261,26 @@ button {
 
 /* Calendario */
 .calendar-container {
-    position: sticky;
-    top: var(--spacing-lg);
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
+    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+    align-items: center; /* Centra los elementos horizontalmente */
+    position: relative;
     background-color: var(--color-bg-primary);
-    border-radius: var(--border-radius-lg);
-    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    padding: var(--spacing-sm);
     box-shadow: var(--shadow-md);
-    height: fit-content;
+    height: auto;
     width: 100%;
 }
 
+.calendar-container h2 {
+    margin-bottom: var(--spacing-md); /* Mantiene espacio entre el título y el calendario */
+    text-align: center; /* Centra el texto del encabezado */
+}
+
 #calendar {
+    align-items: center; /* Centra el contenido verticalmente */
     min-height: auto;
     aspect-ratio: 7/6;
     background-color: var(--color-bg-primary);

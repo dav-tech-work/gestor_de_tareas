@@ -23,7 +23,9 @@ const translations = {
         'calendar.days.thursday': 'jueves',
         'calendar.days.friday': 'viernes',
         'calendar.days.saturday': 'sábado',
-        'calendar.days.sunday': 'domingo'
+        'calendar.days.sunday': 'domingo',
+        'date.start': 'Fecha inicio',
+        'date.end': 'Fecha fin',
     },
     en: {
         'app.title': 'Task Management',
@@ -41,7 +43,9 @@ const translations = {
         'calendar.days.thursday': 'thursday',
         'calendar.days.friday': 'friday',
         'calendar.days.saturday': 'saturday',
-        'calendar.days.sunday': 'sunday'
+        'calendar.days.sunday': 'sunday',
+        'date.start': 'Start date',
+        'date.end': 'End date',
     },
     ca: {
         'app.title': 'Gestió de Tasques',
@@ -59,7 +63,9 @@ const translations = {
         'calendar.days.thursday': 'dijous',
         'calendar.days.friday': 'divendres',
         'calendar.days.saturday': 'dissabte',
-        'calendar.days.sunday': 'diumenge'
+        'calendar.days.sunday': 'diumenge',
+        'date.start': 'Data inici',
+        'date.end': 'Data fi',
     },
     uk: {
         'app.title': 'Управління завданнями',
@@ -77,7 +83,9 @@ const translations = {
         'calendar.days.thursday': 'четвер',
         'calendar.days.friday': 'п\'ятниця',
         'calendar.days.saturday': 'субота',
-        'calendar.days.sunday': 'неділя'
+        'calendar.days.sunday': 'неділя',
+        'date.start': 'Дата початку',
+        'date.end': 'Дата кінця',
     }
 };
 
