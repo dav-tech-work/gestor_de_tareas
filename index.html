@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="app.title">Gestión de Tareas</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+    <!-- FullCalendar CSS -->
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/main.min.css' rel='stylesheet' />
+    <link href='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/main.min.css' rel='stylesheet' />
+    <meta name="description" content="Gestiona tus tareas con My To Do App">
+</head>
+<body>
+    <header class="centrado">
+        <h1 data-i18n="app.title">Gestión de Tareas</h1>
+        <!-- Controles de Tema e Idioma -->
+        <div class="controls-container">
+            <button id="themeToggle" class="theme-toggle">
+                <span>🌙</span>
+            </button>
+            
+            <div class="language-selector">
+                <button onclick="setLanguage('es')" class="active" data-lang="es">ES</button>
+                <button onclick="setLanguage('en')" data-lang="en">EN</button>
+                <button onclick="setLanguage('ca')" data-lang="ca">CA</button>
+                <button onclick="setLanguage('uk')" data-lang="uk">UA</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="centrado">
+        <div class="app-container">
+            <div class="tasks-panel">
+                <!-- Formulario de Tareas -->
+                <section id="taskFormSection">
+                    <h2 data-i18n="task.input">Introduce una tarea</h2>
+                    <form id="taskForm">
+                        <input type="text" id="task" placeholder="Introduce una tarea" required data-i18n="task.input">
+                        <div class="date-inputs">
+                            <div class="date-field">
+                                <label for="startDate">Fecha inicio:</label>
+                                <input type="date" id="startDate" required>
+                            </div>
+                            <div class="date-field">
+                                <label for="endDate">Fecha fin:</label>
+                                <input type="date" id="endDate" required>
+                            </div>
+                        </div>
+                        <select id="state" required>
+                            <option value="pending" data-i18n="task.pending">Pendiente</option>
+                            <option value="in_progress" data-i18n="task.inProgress">En Ejecución</option>
+                            <option value="completed" data-i18n="task.completed">Realizada</option>
+                        </select>
+                        <button type="submit" data-i18n="task.add">Añadir tarea</button>
+                    </form>
+                </section>
+
+                <!-- Secciones de Tareas -->
+                <div class="tasks-container">
+                    <section class="tasks-section">
+                        <h2 data-i18n="task.pending">Pendientes</h2>
+                        <ul class="tasks-list" id="pendingTasks">
+                            <li>
+                                Ejemplo de tarea pendiente
+                                <div class="task-buttons">
+                                    <button type="button" title="Mover a en ejecución"><i class="fas fa-arrow-right"></i></button>
+                                    <button type="button" title="Eliminar tarea"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="tasks-section">
+                        <h2 data-i18n="task.inProgress">En Ejecución</h2>
+                        <ul class="tasks-list" id="inProgressTasks">
+                            <li>
+                                Ejemplo de tarea en ejecución
+                                <div class="task-buttons">
+                                    <button type="button" title="Mover a completadas"><i class="fas fa-check"></i></button>
+                                    <button type="button" title="Mover a pendientes"><i class="fas fa-arrow-left"></i></button>
+                                    <button type="button" title="Eliminar tarea"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+
+                    <section class="tasks-section">
+                        <h2 data-i18n="task.completed">Realizadas</h2>
+                        <ul class="tasks-list" id="completedTasks">
+                            <li>
+                                Ejemplo de tarea completada
+                                <div class="task-buttons">
+                                    <button type="button" title="Mover a en ejecución"><i class="fas fa-arrow-left"></i></button>
+                                    <button type="button" title="Eliminar tarea"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Calendario -->
+            <div class="calendar-container">
+                <h2 data-i18n="calendar.title">Calendario de Tareas</h2>
+                <div id="calendar"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@6.1.10/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/core@6.1.10/locales-all.min.js'></script>
+    <script src="./js/idioma.js"></script>
+    <script src="./js/script.js"></script>
+    <script src="./js/personalizacion.js"></script>
+</body>
+</html>
