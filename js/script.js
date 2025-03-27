@@ -1,34 +1,48 @@
-// Estado de la aplicación
+// 📦 Estado de la aplicación
+// --------------------------------------------------------------------------
+// Estructura de datos principal que almacena las tareas organizadas por estado.
+// Cada estado (pendientes, en progreso, completadas) tiene su propia lista.
 let tasks = {
-    pending: [],
-    in_progress: [],
-    completed: []
+    pending: [],      // Tareas pendientes
+    in_progress: [],  // Tareas en progreso
+    completed: []     // Tareas completadas
 };
 
-// Configuración del calendario
+// 📅 Configuración del calendario
+// --------------------------------------------------------------------------
+// Variable que almacenará la instancia del calendario de FullCalendar.
+// Se inicializa en la función initializeCalendar().
 let calendar;
 
-// Cargar tareas desde localStorage al iniciar
+// 🚀 Inicialización de la aplicación
+// --------------------------------------------------------------------------
+// Evento que se ejecuta cuando el DOM está completamente cargado.
+// Inicializa todos los componentes y carga los datos almacenados.
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        loadTasksFromStorage();
-        removeExampleTasks();
-        initializeCalendar();
-        setMinDates();
-        renderAllTasks();
+        loadTasksFromStorage();     // Carga las tareas almacenadas
+        removeExampleTasks();       // Elimina las tareas de ejemplo
+        initializeCalendar();       // Inicializa el calendario
+        setMinDates();             // Configura las fechas mínimas
+        renderAllTasks();          // Renderiza todas las tareas
     } catch (error) {
         console.error('Error al inicializar la aplicación:', error);
     }
 });
 
-// Establecer fechas mínimas en los inputs
+// 📅 Configuración de fechas
+// --------------------------------------------------------------------------
+// Configura las fechas mínimas para evitar seleccionar fechas pasadas.
 function setMinDates() {
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('startDate').min = today;
     document.getElementById('endDate').min = today;
 }
 
-// Validar que la fecha de fin no sea anterior a la de inicio
+// 🔒 Validación de fechas
+// --------------------------------------------------------------------------
+// Eventos que validan la relación entre fechas de inicio y fin.
+// Evita que la fecha de fin sea anterior a la de inicio.
 document.getElementById('startDate').addEventListener('change', function() {
     document.getElementById('endDate').min = this.value;
 });
@@ -40,12 +54,16 @@ document.getElementById('endDate').addEventListener('change', function() {
     }
 });
 
-// Eliminar las tareas de ejemplo del HTML
+// 🔄 Funciones de almacenamiento
+// --------------------------------------------------------------------------
+// Elimina las tareas de ejemplo que están en el HTML por defecto.
 function removeExampleTasks() {
     document.querySelectorAll('.tasks-list li').forEach(li => li.remove());
 }
 
-// Cargar tareas desde localStorage
+// 🔒 Gestión de datos
+// --------------------------------------------------------------------------
+// Recupera las tareas almacenadas en localStorage y las asigna al objeto `tasks`.
 function loadTasksFromStorage() {
     const savedTasks = localStorage.getItem('tasks');
     if (savedTasks) {
@@ -53,12 +71,16 @@ function loadTasksFromStorage() {
     }
 }
 
-// Guardar tareas en localStorage
+// 🔒 Gestión de datos
+// --------------------------------------------------------------------------
+// Almacena el estado actual de las tareas en localStorage.
 function saveTasksToStorage() {
     localStorage.setItem('tasks', JSON.stringify(tasks));
 }
 
-// Inicializar el calendario
+// 📅 Inicialización del calendario
+// --------------------------------------------------------------------------
+// Configura e inicializa el calendario de FullCalendar con sus opciones.
 function initializeCalendar() {
     const calendarEl = document.getElementById('calendar');
     if (!calendarEl) {
@@ -75,7 +97,7 @@ function initializeCalendar() {
                 right: 'dayGridMonth'
             },
             height: 'auto',
-            firstDay: 1, // Lunes como primer día de la semana
+            firstDay: 1,
             locale: document.documentElement.lang || 'es',
             buttonText: {
                 today: translations[document.documentElement.lang || 'es']['calendar.today'],
@@ -89,7 +111,6 @@ function initializeCalendar() {
                 return [`task-${arg.event.extendedProps.state}`];
             },
             eventDidMount: function(info) {
-                // Añadir tooltip con información detallada
                 info.el.title = `
                     ${info.event.title}
                     Inicio: ${new Date(info.event.start).toLocaleDateString()}
@@ -101,16 +122,15 @@ function initializeCalendar() {
 
         calendar.render();
         console.log('Calendario inicializado correctamente');
-        
-        // Actualizar eventos después de la inicialización
         updateCalendarEvents();
     } catch (error) {
         console.error('Error al inicializar el calendario:', error);
-        console.error(error.stack);
     }
 }
 
-// Mostrar detalles de la tarea al hacer clic en el calendario
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Muestra los detalles de una tarea al hacer clic en un evento del calendario.
 function showTaskDetails(event) {
     const task = event.extendedProps;
     alert(`
@@ -121,7 +141,9 @@ function showTaskDetails(event) {
     `);
 }
 
-// Obtener etiqueta del estado
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Devuelve la etiqueta traducida del estado de la tarea.
 function getStateLabel(state) {
     const labels = {
         'pending': 'Pendiente',
@@ -131,7 +153,9 @@ function getStateLabel(state) {
     return labels[state] || state;
 }
 
-// Actualizar eventos del calendario
+// 📅 Sincronización del calendario
+// --------------------------------------------------------------------------
+// Actualiza los eventos del calendario con las tareas actuales.
 function updateCalendarEvents() {
     if (!calendar) {
         console.error('El calendario no está inicializado');
@@ -140,12 +164,11 @@ function updateCalendarEvents() {
 
     try {
         calendar.removeAllEvents();
-        
-        // Añadir todas las tareas al calendario
+
         Object.entries(tasks).forEach(([state, taskList]) => {
             taskList.forEach(task => {
                 const eventEnd = new Date(task.endDate);
-                eventEnd.setDate(eventEnd.getDate() + 1); // Añadir un día para incluir el día de entrega completo
+                eventEnd.setDate(eventEnd.getDate() + 1);
 
                 calendar.addEvent({
                     title: task.text,
@@ -170,7 +193,9 @@ function updateCalendarEvents() {
     }
 }
 
-// Manejar el envío del formulario para añadir tareas
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Maneja la creación de nuevas tareas a través del formulario.
 document.getElementById('taskForm').addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -189,7 +214,7 @@ document.getElementById('taskForm').addEventListener('submit', (e) => {
             alert('La fecha de entrega no puede ser anterior a la fecha de inicio');
             return;
         }
-        
+
         addTask(taskText, taskState, startDate, endDate);
         taskInput.value = '';
         startDateInput.value = '';
@@ -199,7 +224,9 @@ document.getElementById('taskForm').addEventListener('submit', (e) => {
     }
 });
 
-// Añadir una nueva tarea
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Añade una nueva tarea al sistema.
 function addTask(text, state, startDate, endDate) {
     const task = {
         id: Date.now().toString(),
@@ -215,14 +242,18 @@ function addTask(text, state, startDate, endDate) {
     updateCalendarEvents();
 }
 
-// Renderizar todas las listas de tareas
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Renderiza todas las listas de tareas en la interfaz.
 function renderAllTasks() {
     renderTaskList('pending', 'pendingTasks');
     renderTaskList('in_progress', 'inProgressTasks');
     renderTaskList('completed', 'completedTasks');
 }
 
-// Renderizar una lista específica de tareas
+// 📝 Gestión de tareas
+// --------------------------------------------------------------------------
+// Renderiza una lista específica de tareas.
 function renderTaskList(state, containerId) {
     const container = document.getElementById(containerId);
     container.innerHTML = '';
@@ -273,7 +304,9 @@ function renderTaskList(state, containerId) {
     });
 }
 
-// Función auxiliar para crear botones
+// 🛠️ Funciones auxiliares
+// --------------------------------------------------------------------------
+// Crea un botón con icono y maneja su evento de clic.
 function addButton(container, icon, title, onClick) {
     const button = document.createElement('button');
     button.type = 'button';
@@ -283,7 +316,9 @@ function addButton(container, icon, title, onClick) {
     container.appendChild(button);
 }
 
-// Mover una tarea entre estados
+// 🔄 Gestión de estados
+// --------------------------------------------------------------------------
+// Mueve una tarea entre diferentes estados.
 function moveTask(taskId, fromState, toState) {
     const taskIndex = tasks[fromState].findIndex(task => task.id === taskId);
     if (taskIndex !== -1) {
@@ -295,7 +330,9 @@ function moveTask(taskId, fromState, toState) {
     }
 }
 
-// Eliminar una tarea
+// 🗑️ Gestión de tareas
+// --------------------------------------------------------------------------
+// Elimina una tarea del sistema.
 function deleteTask(taskId, state) {
     if (confirm('¿Estás seguro de que quieres eliminar esta tarea?')) {
         const taskIndex = tasks[state].findIndex(task => task.id === taskId);

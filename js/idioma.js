@@ -1,11 +1,17 @@
-// 🧠 Aplicar idioma inmediatamente al <html lang="...">
+// 🌐 Sistema de internacionalización
+// --------------------------------------------------------------------------
+// Inicializa el idioma del documento antes de que se cargue el DOM.
+// Usa el idioma guardado en localStorage o el predeterminado 'es'.
 (() => {
     const lang = (localStorage.getItem('language') ?? 'es');
     const safeLang = ['es', 'en', 'ca', 'uk'].includes(lang) ? lang : 'es';
     document.documentElement.lang = safeLang;
 })();
 
-// 🌐 Sistema de traducciones
+// 📚 Base de datos de traducciones
+// --------------------------------------------------------------------------
+// Objeto que contiene todas las traducciones para los diferentes idiomas.
+// Cada idioma tiene sus propias traducciones para los textos de la interfaz.
 const translations = {
     es: {
         'app.title': 'Gestión de Tareas',
@@ -89,7 +95,9 @@ const translations = {
     }
 };
 
-// 🔄 Función para actualizar textos
+// 🔄 Actualización de textos
+// --------------------------------------------------------------------------
+// Función que actualiza todos los textos de la interfaz según el idioma seleccionado.
 function updateTexts(lang) {
     try {
         if (!translations[lang]) throw new Error('Idioma no soportado');
@@ -124,7 +132,9 @@ function updateTexts(lang) {
     }
 }
 
-// 🌍 Función para cambiar idioma
+// 🌍 Cambio de idioma
+// --------------------------------------------------------------------------
+// Función que maneja el cambio de idioma de la aplicación.
 function setLanguage(lang) {
     try {
         if (!['es', 'en', 'ca', 'uk'].includes(lang)) {
@@ -154,11 +164,15 @@ function setLanguage(lang) {
 }
 
 // 🚀 Inicialización
+// --------------------------------------------------------------------------
+// Evento que se ejecuta cuando el DOM está completamente cargado.
+// Inicializa el sistema de idiomas y establece los eventos necesarios.
 document.addEventListener('DOMContentLoaded', () => {
     // Cargar idioma guardado o usar el predeterminado
     const savedLang = localStorage.getItem('language') || navigator.language.split('-')[0];
     setLanguage(['es', 'en', 'ca', 'uk'].includes(savedLang) ? savedLang : 'es');
 
+    // Configurar eventos para los botones de cambio de idioma
     document.querySelectorAll('.language-switch').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
@@ -167,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Configurar el select de idiomas si existe
     const select = document.getElementById('languageSelect');
     if (select) {
         select.value = savedLang;
